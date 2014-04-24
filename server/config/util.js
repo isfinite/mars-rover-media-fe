@@ -15,3 +15,9 @@ exports.walk = function(modulesPath, excludeDir, callback) {
 		}
 	});
 }
+
+exports.exists = function(file, callback) {
+	fs.exists(file, function(exists) {
+		callback(exists);
+	});
+}

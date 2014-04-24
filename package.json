@@ -12,13 +12,15 @@
     "lodash": "^2.4.1",
     "express": "^4.0.0",
     "consolidate": "^0.10.0",
-    "handlebars": "^2.0.0-alpha.2"
+    "handlebars": "^2.0.0-alpha.2",
+    "request": "^2.34.0"
   },
   "devDependencies": {
     "grunt": "^0.4.4",
     "grunt-contrib-uglify": "^0.4.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-contrib-less": "^0.11.0",
-    "grunt-contrib-concat": "^0.4.0"
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-imagemin": "^0.6.1"
   }
 }

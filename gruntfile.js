@@ -2,19 +2,56 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json')
+		, imagemin: {
+			png: {
+				options: {
+					optimizationLevel: 7
+				}
+				, files: [
+					{
+						expand: true
+						, cwd: 'assets/images'
+						, src: ['**/*.png']
+						, dest: 'public/images/compressed'
+						, ext: '.png'
+					}
+				]
+			}
+			, jpg: {
+				options: {
+					progressive: true
+				}
+				, files: [
+					{
+						expand: true
+						, cwd: 'assets/images'
+						, src: ['**/*.jpg']
+						, dest: 'public/images/compressed'
+						, ext: '.jpg'
+					}
+				]
+			}
+		}
 		, concat: {
 			css: {
-				src: ['assets/css/screen.css']
+				src: ['assets/css/*.css']
 				, dest: 'assets/build/css/aggregated.css'
+			}
+			, js: {
+				src: ['assets/js/*.js']
+				, dest: 'assets/build/js/aggregated.js'
 			}
 		}
 		, uglify: {
 			options: {
-				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+				mangle: true
+				, compress: true
+				, report: false
+				, banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
 			}
 			, build: {
-				src: 'src/<%= pkg.name %>.js'
-				, dest: 'build/<%= pkg.name %>.min.js'
+				src: 'assets/js/*'
+				, dest: 'assets/build/js/aggregated.min.js'
 			}
 		}
 		, less: {
@@ -30,8 +67,8 @@ module.exports = function(grunt) {
 			}
 		}
 		, watch: {
-			files: 'assets/css/*'
-			, tasks: ['less', 'concat']
+			files: ['assets/css/*', 'assets/js/*']
+			, tasks: ['less', 'uglify', 'concat', 'imagemin']
 		}
 	});
 
@@ -39,6 +76,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
 
 	grunt.registerTask('default', ['watch']);
 

@@ -1,0 +1,1 @@
+var mrmFE = angular.module('mrmFE', []);
