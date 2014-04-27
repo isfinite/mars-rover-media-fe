@@ -1,2 +1,11 @@
+<script type="text/javascript" src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="/assets/js/aggregated.min.js"></script>
+<script>
+var mrmFE = angular.module('mrmFE', ['uiSlider']);
+</script>
+<script type="text/javascript" src="/public/controllers/head.js"></script>
+{{#module}}
+<script type="text/javascript" src="/public/controllers/{{.}}.js"></script>
+{{/module}}
 </body>
 </html>

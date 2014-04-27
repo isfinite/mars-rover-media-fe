@@ -1,7 +1,28 @@
 {{>head}}
 
 <div ng-controller="IndexController">
-\{{totalImages}}
+	
+	<!--<div id="chart"></div>-->
+
 </div>
 
+<div id="latest-images" ng-controller="LatestController">
+	<h2>Latest Images</h2>
+	<div id="image-strip">
+		<div class="latest-img" ng-if="" ng-repeat="image in latestImages">
+			<img src="\{{image.url.web}}" />
+		</div>
+	</div>
+</div>
+
+<div>
+
+	<slider ng-model="val" floor="0" ceiling="20" step="1"></slider>
+</div>
+
+<div ng-controller="ChartController">
+	<div id="chart">
+
+	</div>
+</div>
 {{>foot}}

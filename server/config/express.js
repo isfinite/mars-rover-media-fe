@@ -29,9 +29,9 @@ module.exports = function(app) {
 		res.send(fs.readFileSync(config.root + '/assets/build/css/aggregated.css', 'utf8'));
 	});
 
-	app.get('/assets/js/aggregated.js', function(req, res) {
+	app.get('/assets/js/aggregated.min.js', function(req, res) {
 		res.setHeader('content-type', 'text/javascript');
-		res.send(fs.readFileSync(config.root + '/assets/build/js/aggregated.js', 'utf8'));
+		res.send(fs.readFileSync(config.root + '/assets/build/js/aggregated.min.js', 'utf8'));
 	});
 
 	function bootstrapRoutes() {
