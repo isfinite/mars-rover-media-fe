@@ -22,5 +22,12 @@
     "grunt-contrib-less": "^0.11.0",
     "grunt-contrib-concat": "^0.4.0",
     "grunt-contrib-imagemin": "^0.6.1"
+  },
+  "subdomain": "mars-rover-media-fe",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "0.10.x"
   }
 }
