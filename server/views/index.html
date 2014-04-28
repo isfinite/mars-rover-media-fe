@@ -84,14 +84,14 @@
 				</ul>
 			</div>
 			<div id="f-image">
-				<img src="\{{featuredImage.url.raw}}" />
+				<img ng-src="\{{featuredImage.url.raw}}" />
 			</div>
 		</div>
 	</div>
 	<div class="image-strip">
 		<div class="latest-img" ng-if="image.type === 'full'" ng-repeat="image in latestImages">
 			<div class="img" ng-click="changeFeaturedImage(image.camera.clean)">
-				<img src="\{{image.url.web}}" />
+				<img ng-src="\{{image.url.web}}" />
 			</div>
 			<div class="img-info">
 				<span class="camera">\{{image.camera.pretty}}</span>
@@ -104,6 +104,8 @@
 
 <div id="explore" ng-controller="ExploreController">
 	<h2>API Explorer</h2>
+	<p><h5>Currently only displaying a subset of the database, the full database is available on Github</h5></p>
+	<p>MRMA is available at <a href="http://mars-rover-media-api.nodejitsu.com/">mars-rover-media-fe.nodejitsu.com</a>. You can explore the API in the section below as well as see a few examples of it in action throughout this site.
 	<div id="explore-inner">
 		<div class="explore-block">
 			<h4>Request Type</h4>
@@ -117,17 +119,41 @@
 				<h4>Sols</h4>
 				Greater Than: \{{sols.solsLow}} && Less Than: \{{sols.solsHigh}}
 				<slider floor="0" ceiling="615" ng-model-low="sols.solsLow" ng-model-high="sols.solsHigh"></slider>
+
+				<h4>Camera</h4>
+				<select ng-model="selectedCamera" ng-options="camera for camera in cameraTypes">
+					<option value="">-- Choose Camera --</option>
+				</select>
 			</div>
 		</div>
 
 		<div ng-show="selectedRequest" class="explore-block">
 			<h4>API Request</h4>
-			<div id="api-request">\{{apiReq}}</div>
+			<div class="api-request">\{{apiReq}}</div>
 			<button ng-click="runAPIRequest()">Run</button>
 		</div>
 
 		<div ng-show="apiRes.length > 0" class="explore-block api-result">
 			<pre ng-bind="apiRes"></pre>
+		</div>
+	</div>
+	<h2>Other API Examples</h2>
+	<div id="explore-inner">
+		<div class="explore-block">
+			<h4>Show all the images in Site 031 AND Drive 1256</h4>
+			<div class="api-request">
+				<pre>http://mars-rover-media-api.nodejitsu.com/v1/sols?site=031&amp;drive=1256</pre>
+			</div>
+			<br/>
+			<h4>Show all the images in Site 031 with a pixel width less than or equal to 100 and a filesize less than 1000 bytes</h4>
+			<div class="api-request">
+				<pre>http://mars-rover-media-api.nodejitsu.com/v1/sols?site=031&amp;width=100&amp;filesize=1000</pre>
+			</div>
+			<br/>
+			<h4>Show all the images in Sols 600 - 615 with pressure less than 1000 and a maximum temperature of less than -18</h4>
+			<div class="api-request">
+				<pre>http://mars-rover-media-api.nodejitsu.com/v1/sols?gte=0600&amp;lte=0615&amp;pressure=1000&amp;max_temp_fahrenheit=-18</pre>
+			</div>
 		</div>
 	</div>
 </div>

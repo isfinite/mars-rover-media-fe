@@ -1,6 +1,6 @@
 (function() {
 
-	var socket = io.connect('http://localhost:3000');
+	var socket = io.connect('http://mars-rover-media-api.nodejitsu.com');
 
 	mrmFE.controller('HeadController', ['$scope', function($scope) {
 		$scope.socket_status = '';

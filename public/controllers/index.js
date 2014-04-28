@@ -5,7 +5,7 @@
 
 	mrmFE.controller('LatestController', ['$scope', '$http', function($scope, $http) {
 		$scope.latestImages = [];
-		$http.jsonp('http://localhost:3000/v1/latest?callback=JSON_CALLBACK')
+		$http.jsonp('http://mars-rover-media-api.nodejitsu.com/v1/latest?callback=JSON_CALLBACK')
 			.success(function(data) {
 				$scope.featuredImage;
 				for (var k in data) {
@@ -35,10 +35,13 @@
 	}
 
 	var getReq = function(scope) {
-		var req = 'http://localhost:3000/v1/';
+		var req = 'http://mars-rover-media-api.nodejitsu.com/v1/';
 		if (!scope.selectedRequest) return;
 		if (scope.selectedRequest.name === 'sols/') {
 			req += scope.selectedRequest.name + '?gte=' + pad(scope.sols.solsLow) + '&lte=' + pad(scope.sols.solsHigh);
+			if (scope.selectedCamera) {
+				req += '&camera=' + scope.selectedCamera;
+			}
 		} else {
 			req += scope.selectedRequest.name;
 		}
@@ -54,13 +57,20 @@
 				, { name: 'latest/' }
 			];
 
+			$scope.cameraTypes = [];
 			$scope.selectedRequest;
+			$scope.selectedCamera;
+
+			$http.jsonp('http://mars-rover-media-api.nodejitsu.com/v1/stats?callback=JSON_CALLBACK')
+				.success(function(data) {
+					for (var k in data.totals.cameras) $scope.cameraTypes.push(k);
+				});
 
 			$scope.$watch('selectedRequest', function(newVal) {
 				if (newVal && newVal.name === 'sols/') {
 					$scope.sols = {
 						solsLow: 0
-						, solsHigh: 20
+						, solsHigh: 615
 						, minTemp: 0
 						, maxTemp: 0
 						, pressure: 0
@@ -69,11 +79,19 @@
 				$scope.apiReq = getReq($scope);
 			});
 
+			$scope.$watch('selectedCamera', function(newVal) {
+				$scope.apiReq = getReq($scope);
+			});
+
 			$scope.$watch('sols.solsLow', function() {
 				if ($scope.selectedRequest && $scope.selectedRequest.name === 'sols/') $scope.apiReq = getReq($scope);
 			});
 
 			$scope.$watch('sols.solsHigh', function() {
+				if ($scope.selectedRequest && $scope.selectedRequest.name === 'sols/') $scope.apiReq = getReq($scope);
+			});
+
+			$scope.$watch('props.width', function() {
 				if ($scope.selectedRequest && $scope.selectedRequest.name === 'sols/') $scope.apiReq = getReq($scope);
 			});
 
@@ -90,19 +108,10 @@
 						$scope.apiRes = JSON.stringify(data, undefined, 2);
 					});
 			}
-		}])
-		.directive('selectRequest', function() {
-			return {
-				link: function(scope, element, attrs) {
-					element.bind('change', function () {
-						//
-					});
-				}
-			}
-		});
+		}]);
 
 	mrmFE.controller('ChartController', ['$scope', '$http', function($scope, $http) {
-		$http.jsonp('http://localhost:3000/v1/stats?callback=JSON_CALLBACK')
+		$http.jsonp('http://mars-rover-media-api.nodejitsu.com/v1/stats?callback=JSON_CALLBACK')
 			.success(function(data) {
 
 					var cols = [];

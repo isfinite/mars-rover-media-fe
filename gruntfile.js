@@ -43,7 +43,6 @@ module.exports = function(grunt) {
 					, 'assets/js/angular-slider.min.js'
 					, 'assets/js/d3.min.js'
 					, 'assets/js/c3.min.js'
-					, 'assets/js/core.min.js'
 				]
 				, dest: 'assets/build/js/aggregated.min.js'
 			}
