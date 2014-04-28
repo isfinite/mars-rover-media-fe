@@ -19,7 +19,7 @@
 				$scope.$digest();
 			})
 			.on('stats', function(data) {
-				$scope.total_images = data.totals.media.full + data.totals.media.thumbnail + ' images indexed';
+				$scope.total_images = (data.totals.media.full + data.totals.media.thumbnail + ' images indexed').toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 				$scope.socket_status = '';
 				$scope.socket_status_class = 'checkmark';
 				$scope.$digest();

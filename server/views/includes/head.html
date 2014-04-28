@@ -14,16 +14,22 @@
 	<link rel="stylesheet" href="/assets/css/aggregated.css">
 </head>
 
-<body>
+<body ng-cloak>
+	<div class="github-fork-ribbon-wrapper right">
+		<div class="github-fork-ribbon">
+			<a href="https://github.com/isfinite/mars-rover-media-api">Fork me on GitHub</a>
+		</div>
+	</div>
 	<div id="mast" ng-controller="HeadController">
 		<div id="logo">
-			Mars Rover Media API {MRMA}
+			<em><strong>M</strong>ars <strong>R</strong>over <strong>M</strong>edia <strong>A</strong>pi</em>
 		</div>
 		<nav>
 			<ul>
-				<li><a href="">Latest</a></li>
-				<li><a href="">Explore</a></li>
-				<li><a href="">Stats</a></li>
+				<li><a href="#explore">Explore</a></li>
+				<li><a href="#stats">Stats</a></li>
+				<li><a href="#license">License</a></li>
+				<li><a href="#download">Download</a></li>
 			</ul>
 		</nav>
 		<div id="status">
@@ -32,3 +38,4 @@
 			<span>\{{total_images}}</span>
 		</div>
 	</div>
+	<div id="container">

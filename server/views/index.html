@@ -1,28 +1,179 @@
 {{>head}}
 
 <div ng-controller="IndexController">
-	
-	<!--<div id="chart"></div>-->
-
+	<h2 class="no-margin-top">Getting Started</h2>
+	<p>The Mars Rover Media API (MRMA) is an open-source REST API built on top of node.js and the Express framework. It uses NeDB for filesystem database storage and Socket.io for exposing . MRMA gathers data from a variety of sources and compiles them together to provide a rich data API for the images currently being gathered by the rovers.</p>
 </div>
 
-<div id="latest-images" ng-controller="LatestController">
-	<h2>Latest Images</h2>
-	<div id="image-strip">
-		<div class="latest-img" ng-if="" ng-repeat="image in latestImages">
-			<img src="\{{image.url.web}}" />
+<div id="latest" ng-controller="LatestController">
+	<div id="latest-inner">
+		<div id="featured-image">
+			<div id="f-image-info">
+				<ul>
+					<li class="header head">\{{featuredImage.camera.pretty}}</li>
+					<li>
+						<span class="key">Sol</span>
+						<span class="val">\{{featuredImage.sol}}</span>
+					</li>
+					<li>
+						<span class="key">Captured</span>
+						<span class="val">\{{featuredImage.timestamps.captured}}</span>
+					</li>
+					<li class="header">Location</li>
+					<li>
+						<span class="key">Site</span>
+						<span class="val">\{{featuredImage.location.site}}</span>
+					</li>
+					<li>
+						<span class="key">Drive</span>
+						<span class="val">\{{featuredImage.location.drive}}</span>
+					</li>
+					<li>
+						<span class="key">X</span>
+						<span class="val">\{{featuredImage.rover.x[0]}}</span>
+					</li>
+					<li>
+						<span class="key">Y</span>
+						<span class="val">\{{featuredImage.rover.y[0]}}</span>
+					</li>
+					<li>
+						<span class="key">Z</span>
+						<span class="val">\{{featuredImage.rover.z[0]}}</span>
+					</li>
+					<li class="header">Weather</li>
+					<li>
+						<span class="key">Max Temp &deg;F</span>
+						<span class="val">\{{featuredImage.weather.max_temp_fahrenheit}}</span>
+					</li>
+					<li>
+						<span class="key">Min Temp &deg;F</span>
+						<span class="val">\{{featuredImage.weather.min_temp_fahrenheit}}</span>
+					</li>
+					<li>
+						<span class="key">Pressure</span>
+						<span class="val">\{{featuredImage.weather.pressure}}</span>
+					</li>
+					<li>
+						<span class="key">Atmosphere</span>
+						<span class="val">\{{featuredImage.weather.atmo_opacity}}</span>
+					</li>
+					<li>
+						<span class="key">Wind Speed</span>
+						<span class="val">\{{featuredImage.weather.wind_speed}}</span>
+					</li>
+					<li class="header">Properties</li>
+					<li>
+						<span class="key">Width</span>
+						<span class="val">\{{featuredImage.properties.width}} px</span>
+					</li>
+					<li>
+						<span class="key">Height</span>
+						<span class="val">\{{featuredImage.properties.height}} px</span>
+					</li>
+					<li>
+						<span class="key">Filesize</span>
+						<span class="val">\{{featuredImage.properties.filesize}} kb</span>
+					</li>
+					<li class="header">Links</li>
+					<li>
+						<span class="key"><a href="\{{featuredImage.url.raw}}">Raw Image</a></span>
+					</li>
+					<li>
+						<span class="key"><a href="\{{featuredImage.url.site}}">MSL Page</a></span>
+					</li>
+				</ul>
+			</div>
+			<div id="f-image">
+				<img src="\{{featuredImage.url.raw}}" />
+			</div>
+		</div>
+	</div>
+	<div class="image-strip">
+		<div class="latest-img" ng-if="image.type === 'full'" ng-repeat="image in latestImages">
+			<div class="img" ng-click="changeFeaturedImage(image.camera.clean)">
+				<img src="\{{image.url.web}}" />
+			</div>
+			<div class="img-info">
+				<span class="camera">\{{image.camera.pretty}}</span>
+				<span class="dims">\{{image.properties.width}} x \{{image.properties.height}} - \{{image.properties.filesize}} kb</span>
+				<span class="file"><a href="\{{image.url.raw}}">Raw File</a></span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="explore" ng-controller="ExploreController">
+	<h2>API Explorer</h2>
+	<div id="explore-inner">
+		<div class="explore-block">
+			<h4>Request Type</h4>
+			<select select-request ng-model="selectedRequest" ng-options="type.name for type in requestTypes">
+				<option value="">-- Choose Request --</option>
+			</select>
+		</div>
+
+		<div ng-show="selectedRequest.name == 'sols/'">
+			<div class="explore-block">
+				<h4>Sols</h4>
+				<slider floor="0" ceiling="615" ng-model-low="sols.solsLow" ng-model-high="sols.solsHigh"></slider>
+			</div>
+
+			<div class="explore-block">
+				<h4>Min Temp &deg;F</h4>
+				<slider floor="0" ceiling="615" ng-model-low="sols.minTempLow" ng-model-high="sols.minTempHigh"></slider>
+			</div>
+
+			<div class="explore-block">
+				<h4>Max Temp &deg;F</h4>
+				<slider floor="0" ceiling="615" ng-model-low="sols.maxTempLow" ng-model-high="sols.maxTempHigh"></slider>
+			</div>
+
+			<div class="explore-block">
+				<h4>Pressure</h4>
+				<slider floor="0" ceiling="615" ng-model-low="sols.pressureLow" ng-model-high="sols.pressureHigh"></slider>
+			</div>
+		</div>
+
+		<div ng-show="selectedRequest" class="explore-block">
+			<h4>API Request</h4>
+			<div id="api-request">\{{apiReq}}\{{selectedRequest.name}}</div>
+			<button ng-click="runAPIRequest()">Run</button>
+		</div>
+
+		<div ng-show="apiRes.length > 0" class="explore-block api-result">
+			<pre ng-bind="apiRes"></pre>
 		</div>
 	</div>
 </div>
 
 <div>
-
-	<slider ng-model="val" floor="0" ceiling="20" step="1"></slider>
-</div>
-
-<div ng-controller="ChartController">
 	<div id="chart">
 
 	</div>
 </div>
+
+<div id="license">
+	<h2>License</h2>
+	<p>The Mars Rover Media API (MRMA) and FE are released under the terms of the <a href="http://en.wikipedia.org/wiki/MIT_License">MIT license</a></p>
+	<p>The MIT License is simple and easy to understand and it places almost no restrictions on what you can do with the API or FE.</p>
+	<p>You are free to use the Mars Rover Media API (MRMA) or FE in any other project (even commercial projects) as long as the copyright header is left intact.</p>
+</div>
+
+<div id="download">
+	<h2>Source Code</h2>
+	<h3>Mars Rover Media API (MRMA)</h3>
+	<p>MRMA includes both the REST API and a daemon that updates the database with new rover data.</p>
+	<p>Requirements: <a href="http://nodejs.org">node.js</a>, <a href="https://www.npmjs.org/">npm</a><br/>Dependencies: <a href="https://github.com/louischatriot/nedb">NeDB</a>, <a href="http://expressjs.com/">Express</a>, <a href="http://socket.io/">Socket.io</a> and other misc npm packages</p>
+	<p><a href="https://github.com/isfinite/mars-rover-media-api">Github Source</a><br/><a href="https://github.com/isfinite/mars-rover-media-api/archive/master.zip">Zip</a></p>
+
+	<p>Once setup run <code>node server.js</code></p>
+
+	<h3>Mars Rover Media FE</h3>
+	<p>Mars Rover Media FE is the site you are viewing. It includes the API Explorer and other functions for displaying MRMA content.</p>
+	<p>Requirements: <a href="http://nodejs.org">node.js</a>, <a href="https://www.npmjs.org/">npm</a>, <a href="http://gruntjs.com/">grunt</a><br/>Dependencies: <a href="https://angularjs.org/">AngularJS</a>, <a href="http://expressjs.com/">Express</a>, <a href="http://handlebarsjs.com/">Handlebars</a> and other misc npm/grunt packages</p>
+	<p><a href="https://github.com/isfinite/mars-rover-media-fe">Github Source</a><br/><a href="https://github.com/isfinite/mars-rover-media-fe/archive/master.zip">Zip</a></p>
+
+	<p>Once setup run <code>node server.js</code>. During development run <code>grunt</code>.</p>
+</div>
+
 {{>foot}}
