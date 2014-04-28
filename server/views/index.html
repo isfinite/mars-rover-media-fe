@@ -115,28 +115,14 @@
 		<div ng-show="selectedRequest.name == 'sols/'">
 			<div class="explore-block">
 				<h4>Sols</h4>
+				Greater Than: \{{sols.solsLow}} && Less Than: \{{sols.solsHigh}}
 				<slider floor="0" ceiling="615" ng-model-low="sols.solsLow" ng-model-high="sols.solsHigh"></slider>
-			</div>
-
-			<div class="explore-block">
-				<h4>Min Temp &deg;F</h4>
-				<slider floor="0" ceiling="615" ng-model-low="sols.minTempLow" ng-model-high="sols.minTempHigh"></slider>
-			</div>
-
-			<div class="explore-block">
-				<h4>Max Temp &deg;F</h4>
-				<slider floor="0" ceiling="615" ng-model-low="sols.maxTempLow" ng-model-high="sols.maxTempHigh"></slider>
-			</div>
-
-			<div class="explore-block">
-				<h4>Pressure</h4>
-				<slider floor="0" ceiling="615" ng-model-low="sols.pressureLow" ng-model-high="sols.pressureHigh"></slider>
 			</div>
 		</div>
 
 		<div ng-show="selectedRequest" class="explore-block">
 			<h4>API Request</h4>
-			<div id="api-request">\{{apiReq}}\{{selectedRequest.name}}</div>
+			<div id="api-request">\{{apiReq}}</div>
 			<button ng-click="runAPIRequest()">Run</button>
 		</div>
 

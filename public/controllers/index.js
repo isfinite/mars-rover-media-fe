@@ -27,6 +27,24 @@
 
 	}]);
 
+	var pad = function(num) {
+		var s = num + ''
+			, origLength = s.length;
+	    while (s.length < ((4 + origLength) - origLength)) s = '0' + s;
+	    return s;
+	}
+
+	var getReq = function(scope) {
+		var req = 'http://localhost:3000/v1/';
+		if (!scope.selectedRequest) return;
+		if (scope.selectedRequest.name === 'sols/') {
+			req += scope.selectedRequest.name + '?gte=' + pad(scope.sols.solsLow) + '&lte=' + pad(scope.sols.solsHigh);
+		} else {
+			req += scope.selectedRequest.name;
+		}
+		return req;
+	}
+
 	mrmFE
 		.controller('ExploreController', ['$scope', '$http', function($scope, $http) {
 
@@ -43,21 +61,31 @@
 					$scope.sols = {
 						solsLow: 0
 						, solsHigh: 615
-						, minTempLow: 0
-						, minTempHigh: 100
-						, maxTempLow: 0
-						, maxTempHigh: 100
-						, pressureLow: 0
-						, pressureHigh: 100
+						, minTemp: 0
+						, maxTemp: 0
+						, pressure: 0
 					}
 				}
+				$scope.apiReq = getReq($scope);
 			});
 
-			$scope.apiReq = 'http://localhost:3000/v1/';
+			$scope.$watch('sols.solsLow', function() {
+				if ($scope.selectedRequest && $scope.selectedRequest.name === 'sols/') $scope.apiReq = getReq($scope);
+			});
+
+			$scope.$watch('sols.solsHigh', function() {
+				if ($scope.selectedRequest && $scope.selectedRequest.name === 'sols/') $scope.apiReq = getReq($scope);
+			});
+
+			$scope.apiReq = '';
 			$scope.apiRes = '';
 
 			$scope.runAPIRequest = function() {
-				$http.jsonp($scope.apiReq + $scope.selectedRequest.name + '?callback=JSON_CALLBACK')
+				var req = getReq($scope);
+
+				if (req.indexOf('?') === -1) req += '?';
+				
+				$http.jsonp(req + '&callback=JSON_CALLBACK')
 					.success(function(data) {
 						$scope.apiRes = JSON.stringify(data, undefined, 2);
 					});
