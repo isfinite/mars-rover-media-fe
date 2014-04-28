@@ -4,6 +4,10 @@
 @medgrey: #CCCCCC;
 @red: #CC3333;
 
+* {
+	outline: none;
+}
+
 body {
 	font-family: 'Lato', 'sans-serif';
 	background: #F8F8F8 url('/public/images/compressed/MarsPanorama.jpg') no-repeat;
@@ -39,6 +43,24 @@ h3 {
 	font-size: 24px;
 	color: #390D1C;
 	font-weight: bold;
+}
+
+h4 {
+	margin-top: 10px;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+button {
+	background: @red;
+	color: #fff;
+	border-radius: 5px;
+	border: 0px;
+	padding: 8px;
+	font-weight: bold;
+	width: 40px;
+	margin-top: 5px;
+	cursor: pointer;
 }
 
 .no-margin-top {
@@ -190,6 +212,7 @@ h3 {
 				width: 120px;
 				height: 120px;
 				overflow: hidden;
+				cursor: pointer;
 			}
 			.img-info {
 				.camera {
@@ -211,7 +234,7 @@ h3 {
 #explore {
 	#explore-inner {
 		background: #f1f1f1;
-		padding: 30px;
+		padding: 10px 30px 30px;
 		#api-request {
 			padding: 5px;
 			background: @white;
