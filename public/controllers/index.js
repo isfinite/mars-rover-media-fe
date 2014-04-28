@@ -60,7 +60,7 @@
 				if (newVal && newVal.name === 'sols/') {
 					$scope.sols = {
 						solsLow: 0
-						, solsHigh: 615
+						, solsHigh: 20
 						, minTemp: 0
 						, maxTemp: 0
 						, pressure: 0

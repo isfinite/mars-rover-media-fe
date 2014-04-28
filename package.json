@@ -1,7 +1,7 @@
 {
   "name": "mars-rover-media-fe",
   "description": "Mars Rover multimedia Front-End",
-  "version": "0.0.1",
+  "version": "0.0.1-2",
   "private": true,
   "author": "Lauren Smith <isfinite@gmail.com>",
   "repository": {

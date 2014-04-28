@@ -12,7 +12,7 @@ module.exports = function() {
 			});
 	}
 
-	bootstrapModels();
+	// bootstrapModels();
 
 	var app = express();
 	require(appPath + '/server/config/express')(app);
