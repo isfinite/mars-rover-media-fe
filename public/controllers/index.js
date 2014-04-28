@@ -101,18 +101,32 @@
 			}
 		});
 
-	/*
 	mrmFE.controller('ChartController', ['$scope', '$http', function($scope, $http) {
-		$http.jsonp('http://localhost:3000/api/sols?callback=JSON_CALLBACK')
+		$http.jsonp('http://localhost:3000/v1/stats?callback=JSON_CALLBACK')
 			.success(function(data) {
-				var cData = []
-					, results = data.slice(0)
-					, _xs = {}
-					, obj = {};
+
+					var cols = [];
+
+					for (var k in data.totals.cameras) {
+						cols.push([k, data.totals.cameras[k]]);
+					}
+
+					c3.generate({
+						data: {
+							columns: cols
+							, type: 'bar'
+						}
+						, bar: {
+							width: {
+								ratio: 0.5
+							}
+						}
+					});
 
 
+					console.log(data);
 
-
+					/*
 
 				do {
 					var item = results.shift()
@@ -138,7 +152,8 @@
 						, type: 'scatter'
 					}
 				});
+*/
 			});
 	}]);
-	*/
+
 })();
