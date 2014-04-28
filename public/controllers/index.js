@@ -107,9 +107,7 @@
 
 					var cols = [];
 
-					for (var k in data.totals.cameras) {
-						cols.push([k, data.totals.cameras[k]]);
-					}
+					for (var k in data.totals.cameras) cols.push([k, data.totals.cameras[k]]);
 
 					c3.generate({
 						data: {
@@ -123,36 +121,6 @@
 						}
 					});
 
-
-					console.log(data);
-
-					/*
-
-				do {
-					var item = results.shift()
-						, res = [item.sol];
-
-					for (var k in item.results.cameras) {
-						if (!_xs[k]) _xs[k] = k + '_x';
-						if (!obj[k]) obj[k] = [k];
-						obj[k].push(item.results.cameras[k]);
-					}
-				} while (results.length > 0);
-
-				console.log(obj);
-
-				c3.generate({
-					data: {
-						xs: _xs
-						, columns: [
-							['cam1', 0, 1, 3, 10, 5, 2]
-							, ['cam2', 4, 3, 2, 11, 2, 3]
-							, ['cam3', 3, 6, 3, 6, 7, 0]
-						]
-						, type: 'scatter'
-					}
-				});
-*/
 			});
 	}]);
 
